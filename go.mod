@@ -1,4 +1,4 @@
-module sherbet
+module github.com/UesugiKaneshin/sherbet
 
 go 1.17
 
