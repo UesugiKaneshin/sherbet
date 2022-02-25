@@ -118,8 +118,22 @@ func reflectValues(obj interface{}, data *[]interface{}) {
 	}
 }
 
-// HasValueFromSlice has value from slice
-func HasValueFromSlice(array *[]*int, value *int) (result bool) {
+// HasValueFromSliceForInt has value from slice
+func HasValueFromSliceForInt(array *[]*int, value *int) (result bool) {
+	result = false
+
+	for _, val := range *array {
+		if *value == *val {
+			result = true
+		} else {
+		}
+	}
+
+	return result
+}
+
+// HasValueFromSliceForString has value from slice
+func HasValueFromSliceForString(array *[]*string, value *string) (result bool) {
 	result = false
 
 	for _, val := range *array {
