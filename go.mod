@@ -1,6 +1,6 @@
 module github.com/UesugiKaneshin/sherbet
 
-go 1.17
+go 1.18
 
 require (
 	github.com/kataras/iris/v12 v12.1.8
