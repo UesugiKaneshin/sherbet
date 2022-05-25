@@ -145,3 +145,17 @@ func HasValueFromSliceForString(array *[]*string, value *string) (result bool) {
 
 	return result
 }
+
+// HasValueFromSlice has value from slice
+func HasValueFromSlice[T int | float64](array *[]*T, value *T) (result bool) {
+	result = false
+
+	for _, val := range *array {
+		if *value == *val {
+			result = true
+		} else {
+		}
+	}
+
+	return result
+}
