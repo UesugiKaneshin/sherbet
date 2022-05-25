@@ -24,37 +24,37 @@ func PKCS7UnPadding(data []byte) []byte {
 
 // AesEncrypt encrypt data
 func AesEncrypt(data, key []byte) ([]byte, error) {
-	var crypted *[]byte
+	var crypted []byte
 	var err error
 
 	if block, e := aes.NewCipher(key); err == nil {
 		var size = block.BlockSize()
 		var mode = cipher.NewCBCEncrypter(block, key[:size])
 		data = PKCS7Padding(data, size)
-		*crypted = make([]byte, len(data))
-		mode.CryptBlocks(*crypted, data)
+		crypted = make([]byte, len(data))
+		mode.CryptBlocks(crypted, data)
 	} else {
 		err = e
 	}
 
-	return *crypted, err
+	return crypted, err
 }
 
 // AesDecrypt decrypt data
 func AesDecrypt(crypted, key []byte) ([]byte, error) {
-	var data *[]byte
+	var data []byte
 	var err error
 
 	if block, e := aes.NewCipher(key); err == nil {
 		var size = block.BlockSize()
 		var mode = cipher.NewCBCDecrypter(block, key[:size])
 
-		*data = make([]byte, len(crypted))
-		mode.CryptBlocks(*data, crypted)
-		*data = PKCS7UnPadding(*data)
+		data = make([]byte, len(crypted))
+		mode.CryptBlocks(data, crypted)
+		data = PKCS7UnPadding(data)
 	} else {
 		err = e
 	}
 
-	return *data, err
+	return data, err
 }
