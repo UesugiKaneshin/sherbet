@@ -3,6 +3,8 @@ package sherbet
 import (
 	"net/http"
 
+	"github.com/Masterminds/squirrel"
+	"github.com/jmoiron/sqlx"
 	"github.com/kataras/iris/v12"
 )
 
@@ -90,4 +92,57 @@ func CombineUpdateSetMap(keys []string, values []interface{}) map[string]interfa
 	}
 
 	return result
+}
+
+// RetrieveList is func
+func RetrieveList(
+	database *sqlx.DB,
+	response *BaseResponse,
+	table *string,
+	fields *[]string,
+	where *interface{},
+	orderBy *[]string,
+	limit *uint64,
+	offset *uint64,
+	data interface{},
+) {
+	if sql, arguments, err := squirrel.StatementBuilder.
+		Select((*fields)...).
+		From(*table).
+		Where(*where).
+		Limit(*limit).
+		Offset(*offset).
+		OrderBy((*orderBy)...).
+		ToSql(); err != nil {
+		response = BuildResponseBuildSQLWrong(&err)
+	} else {
+		if err := database.Select(data, sql, arguments...); err != nil {
+			response = BuildResponseExecuteSQLWrong(&err)
+		} else {
+		}
+	}
+}
+
+// RetrieveTotal is func
+func RetrieveTotal(
+	database *sqlx.DB,
+	response *BaseResponse,
+	table *string,
+	field *string,
+	where *interface{},
+	data interface{},
+) {
+	if sql, arguments, err := squirrel.StatementBuilder.
+		Select(*field).
+		From(*table).
+		Where(*where).
+		Limit(1).
+		ToSql(); err != nil {
+		response = BuildResponseBuildSQLWrong(&err)
+	} else {
+		if err = database.Get(data, sql, arguments...); err != nil {
+			response = BuildResponseExecuteSQLWrong(&err)
+		} else {
+		}
+	}
 }
