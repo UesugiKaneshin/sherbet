@@ -94,8 +94,8 @@ func CombineUpdateSetMap(keys []string, values []interface{}) map[string]interfa
 	return result
 }
 
-// RetrieveList is func
-func RetrieveList(
+// MysqlRetrieveList retrieve list from mysql
+func MysqlRetrieveList(
 	database *sqlx.DB,
 	response *BaseResponse,
 	table *string,
@@ -123,8 +123,8 @@ func RetrieveList(
 	}
 }
 
-// RetrieveTotal is func
-func RetrieveTotal(
+// MysqlRetrieveTotal retrieve total from mysql
+func MysqlRetrieveTotal(
 	database *sqlx.DB,
 	response *BaseResponse,
 	table *string,
@@ -147,8 +147,8 @@ func RetrieveTotal(
 	}
 }
 
-// RetrieveDetail is func
-func RetrieveDetail(
+// MysqlRetrieveDetail retrieve detail from mysql
+func MysqlRetrieveDetail(
 	database *sqlx.DB,
 	response *BaseResponse,
 	table *string,
@@ -167,6 +167,33 @@ func RetrieveDetail(
 		if err != nil {
 			response = BuildResponseExecuteSQLWrong(&err)
 		} else {
+		}
+	}
+}
+
+// MysqlPost post data to mysql
+func MysqlPost(
+	database *sqlx.DB,
+	response *BaseResponse,
+	table *string,
+	columns *[]string,
+	values *[]interface{},
+) {
+	if sql, arguments, err := squirrel.StatementBuilder.
+		Insert(*table).
+		Columns((*columns)...).
+		Values((*values)...).
+		ToSql(); err != nil {
+		response = BuildResponseBuildSQLWrong(&err)
+	} else {
+		result, err := database.Exec(sql, arguments...)
+		if err != nil {
+			response = BuildResponseExecuteSQLWrong(&err)
+		} else {
+			if id, err := result.LastInsertId(); err != nil {
+				(*response.Body)["id"] = id
+			} else {
+			}
 		}
 	}
 }
