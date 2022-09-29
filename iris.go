@@ -146,3 +146,27 @@ func RetrieveTotal(
 		}
 	}
 }
+
+// RetrieveDetail is func
+func RetrieveDetail(
+	database *sqlx.DB,
+	response *BaseResponse,
+	table *string,
+	fields *[]string,
+	where *interface{},
+	data interface{},
+) {
+	if sql, arguments, err := squirrel.StatementBuilder.
+		Select((*fields)...).
+		From(*table).
+		Where(*where).
+		ToSql(); err != nil {
+		response = BuildResponseBuildSQLWrong(&err)
+	} else {
+		err := database.Get(data, sql, arguments...)
+		if err != nil {
+			response = BuildResponseExecuteSQLWrong(&err)
+		} else {
+		}
+	}
+}
