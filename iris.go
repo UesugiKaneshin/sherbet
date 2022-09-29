@@ -230,16 +230,5 @@ func MysqlDelete(
 	data *map[string]interface{},
 	where *interface{},
 ) {
-	if sql, arguments, err := squirrel.StatementBuilder.
-		Update(*table).
-		SetMap(*data).
-		Where(*where).
-		ToSql(); err != nil {
-		*response = BuildResponseBuildSQLWrong(&err)
-	} else {
-		if _, err := database.Exec(sql, arguments...); err != nil {
-			*response = BuildResponseExecuteSQLWrong(&err)
-		} else {
-		}
-	}
+	MysqlPut(database, response, table, data, where)
 }
