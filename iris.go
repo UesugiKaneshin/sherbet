@@ -191,9 +191,10 @@ func MysqlPost(
 		if err != nil {
 			response = BuildResponseExecuteSQLWrong(&err)
 		} else {
-			if lastID, err := result.LastInsertId(); err == nil {
-				*id = lastID
+			if lastID, err := result.LastInsertId(); err != nil {
+				response = BuildResponseExecuteSQLWrong(&err)
 			} else {
+				*id = lastID
 			}
 		}
 	}
