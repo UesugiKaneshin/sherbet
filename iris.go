@@ -178,6 +178,7 @@ func MysqlPost(
 	table *string,
 	columns *[]string,
 	values *[]interface{},
+	id *int64,
 ) {
 	if sql, arguments, err := squirrel.StatementBuilder.
 		Insert(*table).
@@ -190,8 +191,8 @@ func MysqlPost(
 		if err != nil {
 			response = BuildResponseExecuteSQLWrong(&err)
 		} else {
-			if id, err := result.LastInsertId(); err != nil {
-				(*response.Body)["id"] = id
+			if lastID, err := result.LastInsertId(); err != nil {
+				*id = lastID
 			} else {
 			}
 		}
