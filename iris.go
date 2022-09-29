@@ -97,7 +97,7 @@ func CombineUpdateSetMap(keys []string, values []interface{}) map[string]interfa
 // MysqlRetrieveList retrieve list from mysql
 func MysqlRetrieveList(
 	database *sqlx.DB,
-	response *BaseResponse,
+	response **BaseResponse,
 	table *string,
 	fields *[]string,
 	where *interface{},
@@ -114,10 +114,10 @@ func MysqlRetrieveList(
 		Offset(*offset).
 		OrderBy((*orderBy)...).
 		ToSql(); err != nil {
-		response = BuildResponseBuildSQLWrong(&err)
+		*response = BuildResponseBuildSQLWrong(&err)
 	} else {
 		if err := database.Select(data, sql, arguments...); err != nil {
-			response = BuildResponseExecuteSQLWrong(&err)
+			*response = BuildResponseExecuteSQLWrong(&err)
 		} else {
 		}
 	}
@@ -126,7 +126,7 @@ func MysqlRetrieveList(
 // MysqlRetrieveTotal retrieve total from mysql
 func MysqlRetrieveTotal(
 	database *sqlx.DB,
-	response *BaseResponse,
+	response **BaseResponse,
 	table *string,
 	field *string,
 	where *interface{},
@@ -138,10 +138,10 @@ func MysqlRetrieveTotal(
 		Where(*where).
 		Limit(1).
 		ToSql(); err != nil {
-		response = BuildResponseBuildSQLWrong(&err)
+		*response = BuildResponseBuildSQLWrong(&err)
 	} else {
 		if err = database.Get(data, sql, arguments...); err != nil {
-			response = BuildResponseExecuteSQLWrong(&err)
+			*response = BuildResponseExecuteSQLWrong(&err)
 		} else {
 		}
 	}
@@ -150,7 +150,7 @@ func MysqlRetrieveTotal(
 // MysqlRetrieveDetail retrieve detail from mysql
 func MysqlRetrieveDetail(
 	database *sqlx.DB,
-	response *BaseResponse,
+	response **BaseResponse,
 	table *string,
 	fields *[]string,
 	where *interface{},
@@ -161,11 +161,11 @@ func MysqlRetrieveDetail(
 		From(*table).
 		Where(*where).
 		ToSql(); err != nil {
-		response = BuildResponseBuildSQLWrong(&err)
+		*response = BuildResponseBuildSQLWrong(&err)
 	} else {
 		err := database.Get(data, sql, arguments...)
 		if err != nil {
-			response = BuildResponseExecuteSQLWrong(&err)
+			*response = BuildResponseExecuteSQLWrong(&err)
 		} else {
 		}
 	}
@@ -174,7 +174,7 @@ func MysqlRetrieveDetail(
 // MysqlPost post data to mysql
 func MysqlPost(
 	database *sqlx.DB,
-	response *BaseResponse,
+	response **BaseResponse,
 	table *string,
 	columns *[]string,
 	values *[]interface{},
@@ -185,14 +185,14 @@ func MysqlPost(
 		Columns((*columns)...).
 		Values((*values)...).
 		ToSql(); err != nil {
-		response = BuildResponseBuildSQLWrong(&err)
+		*response = BuildResponseBuildSQLWrong(&err)
 	} else {
 		result, err := database.Exec(sql, arguments...)
 		if err != nil {
-			response = BuildResponseExecuteSQLWrong(&err)
+			*response = BuildResponseExecuteSQLWrong(&err)
 		} else {
 			if lastID, err := result.LastInsertId(); err != nil {
-				response = BuildResponseExecuteSQLWrong(&err)
+				*response = BuildResponseExecuteSQLWrong(&err)
 			} else {
 				*id = lastID
 			}
