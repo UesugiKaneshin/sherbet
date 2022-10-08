@@ -108,7 +108,7 @@ func reflectValues(obj interface{}, data *[]interface{}) {
 			case reflect.Int:
 				*data = append(*data, values.Field(i).Elem().Int())
 			case reflect.Uint8:
-				*data = append(*data, values.Field(i).Elem().Int())
+				*data = append(*data, values.Field(i).Elem().Uint())
 			case reflect.String:
 				*data = append(*data, values.Field(i).Elem().String())
 			case reflect.Float64:
