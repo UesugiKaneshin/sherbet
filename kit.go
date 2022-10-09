@@ -1,6 +1,8 @@
 package sherbet
 
 import (
+	"crypto/rand"
+	"math/big"
 	"reflect"
 	"time"
 
@@ -164,3 +166,16 @@ func HasValueFromSlice[T int | float64](array *[]*T, value *T) (result bool) {
 
 // GetPoint get object's point
 func GetPoint[T string | int | int64 | float64](obj T) *T { return &obj }
+
+// GetRandomPassword get password
+func GetRandomPassword(length int, kind string) string {
+	var password = make([]rune, length)
+	var codeModel = []rune("0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ+=-!@#$%*,.[]")
+
+	for key := range password {
+		index, _ := rand.Int(rand.Reader, big.NewInt(int64(len(codeModel))))
+		password[key] = codeModel[int(index.Int64())]
+	}
+
+	return string(password)
+}
