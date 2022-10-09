@@ -168,7 +168,7 @@ func HasValueFromSlice[T int | float64](array *[]*T, value *T) (result bool) {
 func GetPoint[T string | int | int64 | float64](obj T) *T { return &obj }
 
 // GetRandomPassword get password
-func GetRandomPassword(length int, kind string) string {
+func GetRandomPassword(length int) string {
 	var password = make([]rune, length)
 	var ascii = []rune("0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ+=-!@#$%*,.[]")
 
