@@ -173,7 +173,7 @@ func GetRandomPassword(length int) string {
 	var ascii = []rune("0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ+=-!@#$%*,.[]")
 
 	for key := range password {
-		index, _ := rand.Int(rand.Reader, big.NewInt(int64(len(ascii))))
+		var index, _ = rand.Int(rand.Reader, big.NewInt(int64(len(ascii))))
 		password[key] = ascii[int(index.Int64())]
 	}
 
