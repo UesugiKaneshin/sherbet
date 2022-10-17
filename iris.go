@@ -100,7 +100,7 @@ func MysqlRetrieveList(
 	response **BaseResponse,
 	table *string,
 	fields *[]string,
-	where *interface{},
+	where *squirrel.And,
 	orderBy *[]string,
 	limit *uint64,
 	offset *uint64,
@@ -129,7 +129,7 @@ func MysqlRetrieveTotal(
 	response **BaseResponse,
 	table *string,
 	field *string,
-	where *interface{},
+	where *squirrel.And,
 	data interface{},
 ) {
 	if sql, arguments, err := squirrel.StatementBuilder.
@@ -153,7 +153,7 @@ func MysqlRetrieveDetail(
 	response **BaseResponse,
 	table *string,
 	fields *[]string,
-	where *interface{},
+	where *squirrel.And,
 	data interface{},
 ) {
 	if sql, arguments, err := squirrel.StatementBuilder.
@@ -206,7 +206,7 @@ func MysqlPut(
 	response **BaseResponse,
 	table *string,
 	data *map[string]interface{},
-	where *interface{},
+	where *squirrel.And,
 ) {
 	if sql, arguments, err := squirrel.StatementBuilder.
 		Update(*table).
@@ -228,7 +228,7 @@ func MysqlDelete(
 	response **BaseResponse,
 	table *string,
 	data *map[string]interface{},
-	where *interface{},
+	where *squirrel.And,
 ) {
 	MysqlPut(database, response, table, data, where)
 }
