@@ -1,6 +1,7 @@
 package sherbet
 
 import (
+	"encoding/json"
 	"net/http"
 
 	"github.com/Masterminds/squirrel"
@@ -231,4 +232,19 @@ func MysqlDelete(
 	where *squirrel.And,
 ) {
 	MysqlPut(database, response, table, data, where)
+}
+
+// UnmarshalJsons parse jsons
+func UnmarshalJsons[T string | int](data map[string]*T) *BaseResponse {
+	var result *BaseResponse = nil
+
+	for key, val := range data {
+		if err := json.Unmarshal([]byte(key), val); err != nil {
+			result = BuildResponseParametersWrong(&err)
+			break
+		} else {
+		}
+	}
+
+	return result
 }
