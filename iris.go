@@ -235,7 +235,7 @@ func MysqlDelete(
 }
 
 // UnmarshalJsons parse jsons
-func UnmarshalJsons[T string | int](data map[string]*T) *BaseResponse {
+func UnmarshalJsons(data map[string]interface{}) *BaseResponse {
 	var result *BaseResponse = nil
 
 	for key, val := range data {
