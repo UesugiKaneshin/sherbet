@@ -67,7 +67,7 @@ func DatetimesFormat(datetimes *[]*string, format string) error {
 }
 
 // ReflectTags get object's tags
-func ReflectTags(obj interface{}, tag string) *[]string {
+func ReflectTags(obj any, tag string) *[]string {
 	var result = new([]string)
 
 	types := reflect.TypeOf(obj)
@@ -91,14 +91,14 @@ func reflectTags(types reflect.Type, tag string, data *[]string) {
 }
 
 // ReflectValues get object's value
-func ReflectValues(obj interface{}) *[]interface{} {
-	var result = new([]interface{})
+func ReflectValues(obj any) *[]any {
+	var result = new([]any)
 
 	reflectValues(obj, result)
 
 	return result
 }
-func reflectValues(obj interface{}, data *[]interface{}) {
+func reflectValues(obj any, data *[]any) {
 	values := reflect.ValueOf(obj)
 	for i := 0; i < values.NumField(); i++ {
 		if values.Field(i).Kind() == reflect.Struct {

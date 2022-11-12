@@ -85,8 +85,8 @@ func BuildResponseBuildSQLWrong(err *error) *BaseResponse {
 }
 
 // CombineUpdateSetMap combine two array to a map for update's set method
-func CombineUpdateSetMap(keys []string, values []interface{}) map[string]interface{} {
-	var result = make(map[string]interface{}, len(keys))
+func CombineUpdateSetMap(keys []string, values []any) map[string]any {
+	var result = make(map[string]any, len(keys))
 
 	for key, val := range keys {
 		result[val] = values[key]
@@ -105,7 +105,7 @@ func MysqlRetrieveList(
 	orderBy *[]string,
 	limit *uint64,
 	offset *uint64,
-	data interface{},
+	data any,
 ) {
 	if sql, arguments, err := squirrel.StatementBuilder.
 		Select((*fields)...).
@@ -131,7 +131,7 @@ func MysqlRetrieveTotal(
 	table *string,
 	field *string,
 	where *squirrel.And,
-	data interface{},
+	data any,
 ) {
 	if sql, arguments, err := squirrel.StatementBuilder.
 		Select(*field).
@@ -155,7 +155,7 @@ func MysqlRetrieveDetail(
 	table *string,
 	fields *[]string,
 	where *squirrel.And,
-	data interface{},
+	data any,
 ) {
 	if sql, arguments, err := squirrel.StatementBuilder.
 		Select((*fields)...).
@@ -178,7 +178,7 @@ func MysqlPost(
 	response **BaseResponse,
 	table *string,
 	columns *[]string,
-	values *[]interface{},
+	values *[]any,
 	id *int64,
 ) {
 	if sql, arguments, err := squirrel.StatementBuilder.
@@ -206,7 +206,7 @@ func MysqlPut(
 	database *sqlx.DB,
 	response **BaseResponse,
 	table *string,
-	data *map[string]interface{},
+	data *map[string]any,
 	where *squirrel.And,
 ) {
 	if sql, arguments, err := squirrel.StatementBuilder.
@@ -228,14 +228,14 @@ func MysqlDelete(
 	database *sqlx.DB,
 	response **BaseResponse,
 	table *string,
-	data *map[string]interface{},
+	data *map[string]any,
 	where *squirrel.And,
 ) {
 	MysqlPut(database, response, table, data, where)
 }
 
 // UnmarshalJsons parse jsons
-func UnmarshalJsons(data map[string]interface{}) *BaseResponse {
+func UnmarshalJsons(data map[string]any) *BaseResponse {
 	var result *BaseResponse = nil
 
 	for key, val := range data {
