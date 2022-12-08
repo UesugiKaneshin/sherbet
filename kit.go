@@ -165,7 +165,7 @@ func HasValueFromSlice[T int | float64](array *[]*T, value *T) (result bool) {
 }
 
 // GetPoint get object's point
-func GetPoint[T string | int | int64 | float64](obj T) *T { return &obj }
+func GetPoint[T string | int | int64 | float64 | bool](obj T) *T { return &obj }
 
 // GetRandomPassword get password
 func GetRandomPassword(length int) string {
